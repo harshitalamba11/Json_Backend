@@ -2,11 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "license": "ISC",
-  "author": "",
-  "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "start":"json-server -p 3007 -w db.json"
+    "start": "json-server -p 3007 -w db.json"
+  },
+  "dependencies": {
+    "json-server": "^0.17.3"
   }
 }
