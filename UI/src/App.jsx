@@ -20,7 +20,7 @@ function App() {
 
     console.log(formData);
 
-    axios.post('http://localhost:3007/contacts', formData)
+    axios.post('https://json-backend-2-5btq.onrender.com', formData)
       .then(response => {
         console.log('Form submitted successfully:', response.data);
         // Clear form fields
