@@ -7,31 +7,33 @@ function App() {
   const [email, setEmail] = React.useState('');
   const [message, setMessage] = React.useState('');
 
-  
-
-  function handleSubmit(event) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const formData = {
-      name: event.target.name.value,
-      email: event.target.email.value,
-      message: event.target.message.value
-    };
+    // Build form data using state (not event.target)
+    const formData = { name, email, message };
 
-    console.log(formData);
+    try {
+      const response = await axios.post(
+        'https://json-backend-011.onrender.com/contacts', // Must match top-level db.json key
+        formData,
+        { headers: { 'Content-Type': 'application/json' } } // Ensure JSON
+      );
+      console.log('Form submitted successfully:', response.data);
 
-    axios.post('https://json-backend-011.onrender.com/contacts', formData)
-      .then(response => {
-        console.log('Form submitted successfully:', response.data);
-        // Clear form fields
-        setName('');
-        setEmail('');
-        setMessage('');
-      })
-      .catch(error => {
-        console.error('Error submitting form:', error);
-      });
-  }
+      // Clear form fields
+      setName('');
+      setEmail('');
+      setMessage('');
+    } catch (error) {
+      // Show a more descriptive error
+      console.error(
+        'Error submitting form:',
+        error.response?.status,
+        error.response?.data || error.message
+      );
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -45,9 +47,10 @@ function App() {
               type="text" 
               name="name" 
               value={name}
-              onChange={e=>setName(e.target.value)}
+              onChange={e => setName(e.target.value)}
               placeholder="Your Name" 
-              className="mt-1 p-2 border rounded-md w-full " 
+              className="mt-1 p-2 border rounded-md w-full" 
+              required
             />
           </div>
 
@@ -57,9 +60,10 @@ function App() {
               type="email" 
               name="email" 
               value={email}
-              onChange={e=>setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
               placeholder="Your Email" 
               className="mt-1 p-2 border rounded-md w-full focus:ring-2 focus:ring-blue-400" 
+              required
             />
           </div>
 
@@ -70,8 +74,9 @@ function App() {
               value={message}
               placeholder="Your Message" 
               rows="4" 
-              onChange={e=>setMessage(e.target.value)}
+              onChange={e => setMessage(e.target.value)}
               className="mt-1 p-2 border rounded-md w-full focus:ring-2 focus:ring-blue-400" 
+              required
             ></textarea>
           </div>
 
