@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "start": "npx json-server --watch db.json --port $PORT --host 0.0.0.0"
+  "start": "json-server --watch db.json --port $PORT --host 0.0.0.0",
+  "postinstall": "npm install -g json-server"
 },
 
   "dependencies": {
